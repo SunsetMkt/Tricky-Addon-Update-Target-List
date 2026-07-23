@@ -277,9 +277,24 @@ export class Config {
   pop(section: string, value?: string): string | undefined {
     const arr = this.#data[section]
     if (!Array.isArray(arr)) return undefined
-    if (value === undefined) return arr.pop()
-    const idx = arr.indexOf(value)
-    return idx !== -1 ? arr.splice(idx, 1)[0] : undefined
+
+    let removed: string | undefined
+    if (value === undefined) {
+      removed = arr.pop()
+    } else {
+      const idx = arr.indexOf(value)
+      if (idx !== -1) {
+        removed = arr.splice(idx, 1)[0]
+      }
+    }
+
+    // Clean up orphan per-app policy
+    if (removed && section === 'target') {
+      const pkgName = removed.replace(/[!?]$/, '')
+      delete this.#data[pkgName]
+    }
+
+    return removed
   }
 
   get configPath(): string {
