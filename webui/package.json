@@ -8,16 +8,16 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "sass": "^1.101.0",
-    "typescript": "~6.0.3",
-    "vite": "^8.0.16"
+    "sass": "^1.102.0",
+    "typescript": "~7.0.2",
+    "vite": "^8.2.0"
   },
   "dependencies": {
-    "@material/web": "^2.4.1",
+    "@material/web": "^2.5.0",
     "asn1js": "^3.0.10",
     "kernelsu-alt": "^3.1.1",
-    "marked": "^18.0.5",
+    "marked": "^18.0.9",
     "pkijs": "^3.4.0",
-    "smol-toml": "^1.6.1"
+    "smol-toml": "^1.7.1"
   }
 }

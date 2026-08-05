@@ -25,7 +25,7 @@ jobs:
       version_tag_exists: ${{ steps.check_tag.outputs.version_tag_exists }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           fetch-tags: true
@@ -46,14 +46,14 @@ jobs:
           fi
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v5
+        uses: pnpm/action-setup@v6
         with:
           version: 'latest'
 
       - name: Setup Node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
-          node-version: 'latest'
+          node-version: 'lts/*'
           cache: 'pnpm'
           cache-dependency-path: webui/pnpm-lock.yaml
 
@@ -105,7 +105,7 @@ jobs:
     if: ${{ needs.build.outputs.version_tag_exists == 'false' && github.event_name != 'pull_request' }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -151,14 +151,14 @@ jobs:
           fi
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v5
+        uses: pnpm/action-setup@v6
         with:
           version: 'latest'
 
       - name: Setup Node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
-          node-version: 'latest'
+          node-version: 'lts/*'
           cache: 'pnpm'
           cache-dependency-path: webui/pnpm-lock.yaml
 
