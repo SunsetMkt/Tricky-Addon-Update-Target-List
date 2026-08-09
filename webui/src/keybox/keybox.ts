@@ -119,11 +119,25 @@ export class Keybox {
     try {
       const content = await this.#fileSelector.getFileContent('xml')
       if (!content) return
-      const result = await this.setKeybox(content)
+      const cleanedContent = Keybox.stripXmlComment(content)
+      const result = await this.setKeybox(cleanedContent)
       this.#snackbar.show(i18n.t(result ? 'prompt_custom_key_set' : 'prompt_key_set_error'), result)
     } catch {
       this.#snackbar.show(i18n.t('prompt_key_set_error'), false)
     }
+  }
+
+  static stripXmlComment(content: string): string {
+    const parser = new DOMParser()
+    const xmlDoc = parser.parseFromString(content, 'text/xml')
+
+    const parserError = xmlDoc.querySelector('parsererror')
+    if (parserError) {
+      throw new Error('Invalid XML format')
+    }
+
+    const serializer = new XMLSerializer()
+    return serializer.serializeToString(xmlDoc)
   }
 
   static isKeygenAvailable(): boolean {
