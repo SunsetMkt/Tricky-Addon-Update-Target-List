@@ -1,4 +1,5 @@
 import { File } from './file'
+import { isDev } from './utils/dev'
 import { Config } from './config'
 import type { ConfigData, Policy } from './config'
 
@@ -76,7 +77,7 @@ export class ConfigLegacy extends Config {
   protected readonly perAppConfig: boolean = false
 
   override async read(): Promise<void> {
-    if (import.meta.env.DEV) {
+    if (isDev()) {
       this.set({
         default_policy: { os_patch: 'no', vendor_patch: 'no', boot_patch: 'no' },
         target: [

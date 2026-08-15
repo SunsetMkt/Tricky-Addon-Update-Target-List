@@ -1,4 +1,5 @@
 import { File } from './file'
+import { isDev } from './utils/dev'
 import { Config, PolicySchema } from './config'
 import type { ConfigData } from './config'
 
@@ -92,7 +93,7 @@ export class ConfigTeeSimulator extends Config {
   #teeConfig: TeeConfig = createDefaultConfig()
 
   override async read(): Promise<void> {
-    if (import.meta.env.DEV) {
+    if (isDev()) {
       this.#teeConfig = createDefaultConfig()
       this.#teeConfig.profiles.default.apps = [
         'io.github.vvb2060.keyattestation',

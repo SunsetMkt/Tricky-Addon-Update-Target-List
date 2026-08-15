@@ -1,5 +1,6 @@
 import type { MdOutlinedTextField } from '@material/web/all'
 import { File } from './file'
+import { isDev } from './utils/dev'
 
 export interface Policy {
   os_patch?: string
@@ -194,7 +195,7 @@ export class Config {
   readonly policySchema: PolicySchema = DEFAULT_POLICY_SCHEMA
 
   async read(): Promise<void> {
-    if (import.meta.env.DEV) {
+    if (isDev()) {
       this.#data = {
         default_policy: { os_patch: 'no', vendor_patch: 'no', boot_patch: 'no' },
         target: [

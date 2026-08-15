@@ -19,6 +19,7 @@ import { SearchBar } from './search_bar/search_bar'
 import { Keybind } from './keybind'
 import { LOCAL_STORAGE_PREFIX, OMK_MOD_ID, TEES_MOD_ID } from './constant'
 import './style.scss'
+import { isDev } from './utils/dev'
 
 await i18n.init()
 
@@ -160,10 +161,10 @@ mainMenu.on('menu-default-policy', () => dialogController.showDefaultPolicy())
 mainMenu.on('menu-help', () => dialogController.showHelp())
 mainMenu.on('menu-about', () => dialogController.showAbout())
 mainMenu.on('menu-i18n-guide', () => dialogController.showI18nDialog())
-if ((await cli.getManager()) !== 'MAGISK' && !import.meta.env.DEV) {
+if ((await cli.getManager()) !== 'MAGISK' && !isDev()) {
   mainMenu.hideItem('select-denylist') // Hide 'select from denylist'
 }
-if (!Keybox.isKeygenAvailable() && !import.meta.env.DEV) {
+if (!Keybox.isKeygenAvailable() && !isDev()) {
   mainMenu.hideItem('keybox-unknown') // Hide 'Unknown keybox'
 }
 

@@ -15,8 +15,8 @@ importers:
         specifier: ^3.0.10
         version: 3.0.10
       kernelsu-alt:
-        specifier: ^3.1.1
-        version: 3.1.1
+        specifier: ^3.1.2
+        version: 3.1.2
       marked:
         specifier: ^18.0.9
         version: 18.0.9
@@ -397,8 +397,8 @@ packages:
     resolution: {integrity: sha512-xelSayHH36ZgE7ZWhli7pW34hNbNl8Ojv5KVmkJD4hBdD3th8Tfk9vYasLM+mXWOZhFkgZfxhLSnrwRr4elSSg==}
     engines: {node: '>=0.10.0'}
 
-  kernelsu-alt@3.1.1:
-    resolution: {integrity: sha512-WQI+xscTKxI6ulADJI1UjSI83r3SSxMbOAB9Ym1HBsamYij+ywPtnBbLusYLTSVXulpOWIeQQFZE2TKno8kWBA==}
+  kernelsu-alt@3.1.2:
+    resolution: {integrity: sha512-Hn3nZmwRW9ab6O6+Vd7g/SOtKQBplb3wXCSYS4LUWNmwgKaAT+LlAZhtgb+ORRtSNrKc8fsLFkaBDqLEVUUBSg==}
 
   lightningcss-android-arm64@1.33.0:
     resolution: {integrity: sha512-gEpRTalKdosp4Bb8qWtc2iOgE5SeIHlpS1up9bFq2wAyYhl1UdTObYiHe98zEM9SQvSoqQZ1IQD0JNpg3Ml5pg==}
@@ -811,7 +811,7 @@ snapshots:
       is-extglob: 2.1.1
     optional: true
 
-  kernelsu-alt@3.1.1: {}
+  kernelsu-alt@3.1.2: {}
 
   lightningcss-android-arm64@1.33.0:
     optional: true

@@ -7,6 +7,7 @@ import { i18n } from '../i18n'
 import { GITHUB_REPO, LOCAL_STORAGE_PREFIX } from '../constant'
 import { applyDialogAnimation } from '../dialog/animation'
 import { PolicyEditor } from './policy'
+import { isDev } from '../utils/dev'
 import './app_list.scss'
 
 const SYSTEM_APPS_KEY = `${LOCAL_STORAGE_PREFIX}AdditionalApps`
@@ -45,7 +46,7 @@ export class AppList {
   }
 
   async fetch(): Promise<void> {
-    if (import.meta.env.DEV) {
+    if (isDev()) {
       this.#initDevMode()
       return
     }
@@ -78,7 +79,7 @@ export class AppList {
   }
 
   async save(): Promise<void> {
-    if (import.meta.env.DEV) return
+    if (isDev()) return
     await this.#config.write()
   }
 

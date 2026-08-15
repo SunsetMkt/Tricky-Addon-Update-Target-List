@@ -1,4 +1,5 @@
 import { File } from './file'
+import { isDev } from './utils/dev'
 import { Config, PolicySchema } from './config'
 import type { ConfigData } from './config'
 import { parse, stringify } from 'smol-toml'
@@ -72,7 +73,7 @@ export class ConfigOhMyKeyMint extends Config {
   #omkConfig: Record<string, unknown> | null = null
 
   override async read(): Promise<void> {
-    if (import.meta.env.DEV) {
+    if (isDev()) {
       this.set({
         default_policy: {
           os_version: '15',

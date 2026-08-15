@@ -6,6 +6,7 @@ import type { Snackbar } from '../snackbar/snackbar'
 import type { Config } from '../config'
 import { LOCAL_STORAGE_PREFIX, TELEGRAM_CHANNEL, GITHUB_REPO } from '../constant'
 import { applyDialogAnimation } from './animation'
+import { isDev } from '../utils/dev'
 
 const UPDATE_CHANNEL_KEY = `${LOCAL_STORAGE_PREFIX}UpdateChannel`
 
@@ -146,7 +147,7 @@ export class AboutDialog {
     try {
       const basePath = await this.#cli.getBasePath()
       let version = await this.#cli.grepProp('version', `${basePath}/common/update/module.prop`)
-      if (import.meta.env.DEV) version = 'v5.0 (690581)'
+      if (isDev()) version = 'v5.0 (690581)'
       if (version) {
         const el = this.#dialog?.querySelector('#module-version')
         if (el) el.textContent = version

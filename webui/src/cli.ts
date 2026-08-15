@@ -1,6 +1,7 @@
 import { exec, spawn } from 'kernelsu-alt'
 import { File } from './file'
 import { MOD_ID, OMK_MOD_ID, TEES_MOD_ID, TS_MOD_ID } from './constant'
+import { isDev } from './utils/dev'
 
 export class Cli {
   static #basePathPromise: Promise<string> | null = null
@@ -194,7 +195,7 @@ export class Cli {
   }
 
   async getMagiskDenyList(): Promise<string[]> {
-    if (import.meta.env.DEV) {
+    if (isDev()) {
       return [
         'com.example.game',
         'com.example.streaming',
@@ -214,7 +215,7 @@ export class Cli {
   }
 
   async getXposedList(): Promise<string[]> {
-    if (import.meta.env.DEV) {
+    if (isDev()) {
       return [
         'org.lsposed.manager',
         'com.example.xposedmod1',
