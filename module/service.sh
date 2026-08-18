@@ -26,18 +26,25 @@ elif [ ! -d "$TSPA" ] && [ -f "/storage/emulated/0/stop-tspa-auto-target" ]; the
     rm -f "/storage/emulated/0/stop-tspa-auto-target"
 fi
 
+# Magisk manager show module even without module.prop
+# Move to a hidden folder to hide from Magisk manager
+hide_module() {
+    # Don't hide module in TEESimulator
+    [ "$RUNTIME" = "$TEES" ] && return
+
+    if [ "$MODPATH" != "$HIDE_DIR" ]; then
+        rm -rf "$HIDE_DIR"
+        mkdir -p "$HIDE_DIR"
+        busybox chcon --reference="$MODPATH" "$HIDE_DIR"
+        cp -af "$MODPATH/." "$HIDE_DIR/"
+    fi
+    MODPATH="$HIDE_DIR"
+}
+
 # Magisk operation
 if [ "$MANAGER" = "MAGISK" ]; then
     # Hide module from Magisk manager
-    if [ ! "$RUNTIME" = "$TEES" ]; then
-        if [ "$MODPATH" != "$HIDE_DIR" ]; then
-            rm -rf "$HIDE_DIR"
-            mkdir -p "$HIDE_DIR"
-            busybox chcon --reference="$MODPATH" "$HIDE_DIR"
-            cp -af "$MODPATH/." "$HIDE_DIR/"
-        fi
-        MODPATH="$HIDE_DIR"
-    fi
+    hide_module
     [ -f "$MODPATH/action.sh.old" ] && mv -f "$MODPATH/action.sh.old" "$MODPATH/action.sh"
 else
     [ -f "$MODPATH/action.sh" ] && mv -f "$MODPATH/action.sh" "$MODPATH/action.sh.old"
@@ -60,18 +67,11 @@ done
 
 sh "$MODPATH/common/get_extra.sh" --xposed >/dev/null 2>&1
 
+# Clean up
 if [ ! "$RUNTIME" = "$TEES" ]; then
-    [ ! -f "$MODPATH/action.sh" ] || rm -rf "/data/adb/modules/TA_utl";
-
     # Hide module from APatch, KernelSU, KSUWebUIStandalone, MMRL
-    # Don't hide module for TEESimulator since they has built in WebUI
-    nohup sh -c "
-    count=0
-    while kill -0 $PPID 2>/dev/null; do
-        [ \$count -ge 5 ] && break
-        sleep 1
-        count=\$((count + 1))
-    done
-    rm -f '$MODPATH/module.prop'
-    " >/dev/null 2>&1 &
+    rm -f "$MODPATH/module.prop"
+
+    # Remove old TA_utl folder for Magisk
+    [ ! -f "$MODPATH/action.sh" ] || rm -rf "/data/adb/modules/TA_utl";
 fi

@@ -10,7 +10,6 @@ mkdir -p "$MODPATH/tmp"
 
 if [ "$MODPATH" = "/data/adb/modules/.TA_utl/common" ]; then
     MODDIR="/data/adb/modules/.TA_utl"
-    MAGISK="true"
 else
     MODDIR="/data/adb/modules/TA_utl"
 fi
