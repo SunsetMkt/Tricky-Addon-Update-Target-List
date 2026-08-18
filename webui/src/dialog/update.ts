@@ -54,6 +54,7 @@ export class UpdateDialog {
     if (!this.#changelogEl || !this.#dialog) return
     renderMarkdown(changelog, this.#changelogEl, this.#cli)
     this.#rebootMode = false
+    this.#resetInstallButton()
     this.#updateButtonState()
     this.#dialog.show()
   }
@@ -76,9 +77,28 @@ export class UpdateDialog {
     }
   }
 
+  #resetInstallButton(): void {
+    const installBtn = this.#dialog?.querySelector<MdFilledButton>('#install-update')
+    if (!installBtn) return
+    installBtn.disabled = false
+    installBtn.textContent = i18n.t('update_install')
+  }
+
   async #performUpdate(): Promise<void> {
     const channel = localStorage.getItem(`${LOCAL_STORAGE_PREFIX}UpdateChannel`) || 'stable'
     if (channel === 'disable') return
+    const installBtn = this.#dialog?.querySelector<MdFilledButton>('#install-update')
+    if (!installBtn || installBtn.disabled) return
+    installBtn.disabled = true
+    installBtn.innerHTML = `
+      <md-circular-progress
+        indeterminate
+        style="
+          --md-circular-progress-size: 1.5em;
+          --md-circular-progress-active-indicator-width: 15;
+        "
+      ></md-circular-progress>
+    `
     try {
       this.#snackbar.show(i18n.t('prompt_downloading'))
       const ok = await this.#updateManager.update(channel as 'stable' | 'canary')
@@ -88,9 +108,11 @@ export class UpdateDialog {
         this.#updateButtonState()
       } else {
         this.#snackbar.show(i18n.t('prompt_install_fail'), false)
+        this.#resetInstallButton()
       }
     } catch {
       this.#snackbar.show(i18n.t('prompt_download_fail'), false)
+      this.#resetInstallButton()
     }
   }
 
